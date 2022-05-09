@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# View man pages in PDF format. We can also view pages in PS format
+page=$1
+[[ -z $page ]] && man -k . | dmenu -l 30 | awk '{print $1}' | xargs -r man -Tpdf | zathura - && exit 0
+# [[ -n $page ]] &&  man -Tpdf $page > log.man && zathura log.man
+[[ -n $page ]] && [[ $(man "$page") ]] 2>/dev/null  && man -Tpdf "$page" | zathura - && exit 0 \
+    || echo "No manual entry for $page!." && exit 0
+
